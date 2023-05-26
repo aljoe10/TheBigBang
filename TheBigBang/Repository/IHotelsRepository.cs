@@ -1,4 +1,5 @@
-﻿namespace TheBigBang.Repository
+﻿using TheBigBang.Models;
+namespace TheBigBang.Repository
 {
     public interface IHotelsRepository
     {

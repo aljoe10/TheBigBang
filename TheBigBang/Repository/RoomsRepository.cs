@@ -1,6 +1,8 @@
-﻿namespace TheBigBang.Repository
+﻿using Microsoft.EntityFrameworkCore;
+using TheBigBang.Models;
+namespace TheBigBang.Repository
 {
-    public class RoomsRepository
+    public class RoomsRepository:IRoomsRepository
     {
     }
 }
