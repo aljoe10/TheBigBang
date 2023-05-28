@@ -8,7 +8,7 @@ namespace TheBigBang.Models
         [Key]
         public int Rid { get; set; }
         public string? Rtype { get; set; }
-        public string? Vacancy { get; set; }
+        public bool Vacancy { get; set; }
         public int Hid { get; set; }
         public Hotels? Hotel { get; set; }
     }

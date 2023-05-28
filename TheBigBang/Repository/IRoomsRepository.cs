@@ -8,5 +8,6 @@ namespace TheBigBang.Repository
         Task<Rooms> CreateRoom(Rooms room);
         Task UpdateRoom(Rooms room);
         Task DeleteRoom(int Rid);
+
     }
 }

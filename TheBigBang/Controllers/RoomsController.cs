@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TheBigBang.Models;
 using TheBigBang.Repository;
 
 namespace TheBigBang.Controllers
 {
+    
     [Route("api/[controller]")]
     [ApiController]
     public class RoomsController : ControllerBase
@@ -26,7 +28,7 @@ namespace TheBigBang.Controllers
 
         // GET api/hotels/{hotelId}/rooms/{id}
         [HttpGet("{Rid}")]
-        public async Task<IActionResult> GetRoom(int Hid, int Rid)
+        public async Task<IActionResult> GetRoom(int Rid)
         {
             var room = await _roomRepository.GetRoomById(Rid);
             if (room == null)
@@ -46,6 +48,7 @@ namespace TheBigBang.Controllers
         }
 
         // PUT api/hotels/{hotelId}/rooms/{id}
+        [Authorize]
         [HttpPut("{Rid}")]
         public async Task<IActionResult> UpdateRoom(int Hid, int Rid, Rooms room)
         {
@@ -57,8 +60,9 @@ namespace TheBigBang.Controllers
         }
 
         // DELETE api/hotels/{hotelId}/rooms/{id}
+        [Authorize]
         [HttpDelete("{Rid}")]
-        public async Task<IActionResult> DeleteRoom(int Hid, int Rid)
+        public async Task<IActionResult> DeleteRoom(int Rid)
         {
             await _roomRepository.DeleteRoom(Rid);
             return NoContent();

@@ -1,10 +1,17 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Data;
+using TheBigBang.Auth;
 using TheBigBang.Models;
 using TheBigBang.Repository;
+using System.Linq;
+
 
 namespace TheBigBang.Controllers
 {
+    [Authorize(Roles = UserRoles.Admin)]
     [Route("api/[controller]")]
     [ApiController]
     public class HotelsController : ControllerBase
@@ -70,6 +77,38 @@ namespace TheBigBang.Controllers
             // Then, delete the hotel
             await _hotelRepository.DeleteHotel(Hid);
             return NoContent();
+        }
+
+        [HttpGet("city/{city}")]
+        public async Task<ActionResult<List<Hotels>>> FetchByCity(string city)
+        {
+            var hotels = await _hotelRepository.GetHotelsBycity (city);
+            return Ok(hotels);
+        }
+
+        [HttpGet("price")]
+        public async Task<ActionResult<List<Hotels>>> FetchByPrice(int minPrice, int maxPrice)
+        {
+            var hotels = await _hotelRepository.GetHotelsByPrice(minPrice, maxPrice);
+            return Ok(hotels);
+        }
+
+        [HttpGet("AvailableRoomsCount")]
+        public async Task<IActionResult> GetAvailableRoomsCount(int id)
+        {
+            var hotel = await _hotelRepository.GetHotelById(id);
+            if (hotel == null)
+            {
+                return NotFound();
+            }
+
+            var rooms = await _roomRepository.GetRoomsByHotelId(id);
+            int availableRoomCount = rooms.Count(r =>
+            {
+                return r.Vacancy;
+            });
+
+            return Ok(availableRoomCount);
         }
     }
 }

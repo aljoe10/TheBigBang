@@ -44,5 +44,14 @@ namespace TheBigBang.Repository
                 await _dbContext.SaveChangesAsync();
             }
         }
+        public async Task<List<Hotels>> GetHotelsBycity(string city)
+        {
+            return await _dbContext.Hotels.Where(h => h.Hcity.Contains(city)).ToListAsync();
+        }
+
+        public async Task<List<Hotels>> GetHotelsByPrice(int minPrice, int maxPrice)
+        {
+            return await _dbContext.Hotels.Where(h => h.Hprice >= minPrice && h.Hprice <= maxPrice).ToListAsync();
+        }
     }
 }
