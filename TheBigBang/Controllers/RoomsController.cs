@@ -6,7 +6,7 @@ using TheBigBang.Repository;
 
 namespace TheBigBang.Controllers
 {
-    
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class RoomsController : ControllerBase
@@ -48,7 +48,6 @@ namespace TheBigBang.Controllers
         }
 
         // PUT api/hotels/{hotelId}/rooms/{id}
-        [Authorize]
         [HttpPut("{Rid}")]
         public async Task<IActionResult> UpdateRoom(int Hid, int Rid, Rooms room)
         {
@@ -60,7 +59,6 @@ namespace TheBigBang.Controllers
         }
 
         // DELETE api/hotels/{hotelId}/rooms/{id}
-        [Authorize]
         [HttpDelete("{Rid}")]
         public async Task<IActionResult> DeleteRoom(int Rid)
         {

@@ -9,28 +9,36 @@ using TheBigBang.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+//Change 1
 ConfigurationManager configuration = builder.Configuration;
 
-
+// Add services to the container.
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//Change 2
 builder.Services.AddScoped<IHotelsRepository, HotelsRepository>();
 builder.Services.AddScoped<IRoomsRepository, RoomsRepository>();
 
+//Change 3
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("Bang")));
 builder.Services.AddDbContext<BookingDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("Bang")));
 
+//Change 4
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-
+//Change 5
 builder.Services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
 
+
+//Change 6
+// Adding Authentication
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -38,6 +46,7 @@ builder.Services.AddAuthentication(options =>
     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 })
 
+// Adding Jwt Bearer
 .AddJwtBearer(options =>
 {
     options.SaveToken = true;
@@ -49,9 +58,6 @@ builder.Services.AddAuthentication(options =>
         ValidAudience = configuration["JWT:ValidAudience"],
         ValidIssuer = configuration["JWT:ValidIssuer"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"]))
-
-
-
     };
 });
 
@@ -59,15 +65,20 @@ builder.Services.AddAuthentication(options =>
 
 var app = builder.Build();
 
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
+
 app.UseHttpsRedirection();
+
+// Enable authentication
 app.UseAuthentication();
 
+// Enable authorization
 app.UseAuthorization();
 
 app.MapControllers();

@@ -8,7 +8,6 @@ namespace TheBigBang.Repository
         Task<Hotels> CreateHotel(Hotels hotel);
         Task UpdateHotel(Hotels hotel);
         Task DeleteHotel(int Hid);
-        //int CountAvailableRooms(int hotelId);
         Task<List<Hotels>> GetHotelsBycity(string city);
         Task<List<Hotels>> GetHotelsByPrice(int minPrice, int maxPrice);
         
