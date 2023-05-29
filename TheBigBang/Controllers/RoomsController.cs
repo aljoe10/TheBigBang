@@ -6,7 +6,7 @@ using TheBigBang.Repository;
 
 namespace TheBigBang.Controllers
 {
-    [Authorize]
+
     [Route("api/[controller]")]
     [ApiController]
     public class RoomsController : ControllerBase
